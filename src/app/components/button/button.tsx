@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { cva } from 'class-variance-authority';
 
 const buttonStyle = cva(
-  'glitter-border px-5 py-2.5 rounded-full w-max text-sm',
+  'border px-5 py-2.5 rounded-full text-base text-center max-w-xs',
   {
     variants: {
       isDisabled: {
@@ -20,6 +20,7 @@ const buttonStyle = cva(
 type BaseProps = {
   children: React.ReactNode;
   className?: string;
+  onClick?: () => void;
 };
 
 type ButtonAsButton = BaseProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -29,10 +30,14 @@ type ButtonAsLink = BaseProps & { href: string };
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 export const Button = (props: ButtonProps) => {
-  if ('href' in props && !('target' in props)) {
-    const { href, className, children, ...rest } = props;
+  if ('href' in props) {
+    const { href, className, children, disabled, ...rest } = props;
     return (
-      <Link href={href} className={buttonStyle({ className })} {...rest}>
+      <Link
+        href={href}
+        className={buttonStyle({ isDisabled: disabled, className })}
+        {...rest}
+      >
         {children}
       </Link>
     );
