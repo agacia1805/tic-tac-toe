@@ -8,14 +8,11 @@ export const Homepage = () => {
       <section className='flex flex-col items-center justify-center gap-4 md:flex-row'>
         <Button
           className='glitter-border  w-full px-16'
-          href='/components/gameBoard'
+          href='/components/game'
         >
           Play with CPU
         </Button>
-        <Button
-          className='glitter-border w-full px-16'
-          href='/components/gameBoard'
-        >
+        <Button className='glitter-border w-full px-16' href='/components/game'>
           Play with Player
         </Button>
       </section>
