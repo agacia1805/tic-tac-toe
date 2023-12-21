@@ -10,6 +10,10 @@ const buttonStyle = cva(
         false: null,
         true: 'opacity-60 pointer-events-none',
       },
+      isSquare: {
+        false: null,
+        true: 'rounded-none',
+      },
     },
     defaultVariants: {
       isDisabled: false,
@@ -21,9 +25,11 @@ type BaseProps = {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
+  square?: boolean;
+  disabled?: boolean;
 };
 
-type ButtonAsButton = BaseProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
+type ButtonAsButton = BaseProps;
 
 type ButtonAsLink = BaseProps & { href: string };
 
@@ -31,7 +37,7 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 export const Button = (props: ButtonProps) => {
   if ('href' in props) {
-    const { href, className, children, disabled, ...rest } = props;
+    const { href, className, children, disabled, ...rest } = props as ButtonAsLink;
     return (
       <Link
         href={href}
@@ -43,11 +49,13 @@ export const Button = (props: ButtonProps) => {
     );
   }
 
-  const { className, children, disabled, ...rest } = props as ButtonAsButton;
+  const { className, children, disabled, square, ...rest } =
+    props as ButtonAsButton;
   return (
     <button
       className={buttonStyle({
         isDisabled: disabled,
+        isSquare: square,
         className,
       })}
       {...rest}

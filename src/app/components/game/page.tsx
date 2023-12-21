@@ -5,10 +5,11 @@ import { Board } from '../board';
 export default function Game() {
   const [squares, setSquares] = useState(Array(9).fill(null));
 
-  const handleClick = (i) => {
+  const handleClick = (i: number) => {
     const newSquares = squares.slice();
     newSquares[i] = 'X';
     setSquares(newSquares);
+    console.log('clicked')
   };
 
   const hasEnoughMarks = (array: string[]): boolean => {
@@ -19,7 +20,7 @@ export default function Game() {
   type BoardState = SquareValue[];
 
   const determineWinner = (board: BoardState): SquareValue => {
-    if (!hasEnoughMarks(arrays)) return null;
+    if (!hasEnoughMarks(squares)) return null;
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -39,7 +40,7 @@ export default function Game() {
     }
     return null;
   };
-  console.log(squares);
 
-  return <Board squares={squares} />;
+  return <div className="p-4 flex justify-center items-center">
+  <Board squares={squares} onClick={handleClick}/> </div>;
 }
