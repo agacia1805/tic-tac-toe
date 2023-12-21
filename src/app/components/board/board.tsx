@@ -12,7 +12,7 @@ export const Board = ({ squares, onClick }: Props) => {
         <Button
           key={i}
           onClick={() => onClick(i)}
-          disabled={square?.length}
+          disabled={!!square?.length}
           square
           className='h-24 w-24 border-indigo-300 md:h-32 md:w-32'
         >
