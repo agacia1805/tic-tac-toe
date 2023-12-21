@@ -7,10 +7,15 @@ interface Props {
 
 export const Board = ({ squares, onClick }: Props) => {
   return (
-    <div className='grid grid-cols-3 max-w-fit border rounded border-indigo-300'>
+    <div className='grid max-w-fit grid-cols-3 rounded border border-indigo-300'>
       {squares.map((square, i) => (
-        <Button key={i} onClick={() => onClick(i)}
-        square className="w-24 h-24 md:w-32 md:h-32 border-indigo-300">
+        <Button
+          key={i}
+          onClick={() => onClick(i)}
+          disabled={square?.length}
+          square
+          className='h-24 w-24 border-indigo-300 md:h-32 md:w-32'
+        >
           {square}
         </Button>
       ))}

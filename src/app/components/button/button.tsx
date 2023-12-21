@@ -37,7 +37,8 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 export const Button = (props: ButtonProps) => {
   if ('href' in props) {
-    const { href, className, children, disabled, ...rest } = props as ButtonAsLink;
+    const { href, className, children, disabled, ...rest } =
+      props as ButtonAsLink;
     return (
       <Link
         href={href}
