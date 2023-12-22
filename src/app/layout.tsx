@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Header } from './components';
+import { Header, Footer } from './components';
 
 import './globals.css';
 
@@ -18,9 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className={`${inter.className} flex min-h-screen flex-col`}>
         <Header />
-        {children}
+        <div className='flex-grow'>{children}</div>
+        <Footer />
       </body>
     </html>
   );
