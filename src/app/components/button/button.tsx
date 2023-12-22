@@ -55,7 +55,6 @@ export const Button = (props: ButtonProps) => {
   return (
     <button
       className={buttonStyle({
-        isDisabled: disabled,
         isSquare: square,
         className,
       })}
