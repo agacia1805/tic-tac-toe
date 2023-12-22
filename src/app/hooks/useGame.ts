@@ -112,7 +112,7 @@ export const useGame = () => {
   };
 
   const makeComputerMove = (newSquares: BoardState) => {
-    const randomMoveChance = 0.25;
+    const randomMoveChance = 0.2;
 
     if (Math.random() < randomMoveChance) {
       makeRandomMove(newSquares);
