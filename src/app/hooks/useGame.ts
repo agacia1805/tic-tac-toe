@@ -1,9 +1,12 @@
 import { BoardState, SquareValue } from '@/app/types';
 import { useState } from 'react';
 import { areMovesLeft, hasEnoughMarks } from '@/app/utils';
+import { useGameMark } from '../context';
 
 export const useGame = () => {
+  const { gameMark } = useGameMark();
   const [squares, setSquares] = useState<BoardState>(Array(9).fill(null));
+  const computerMark = gameMark === 'X' ? 'O' : 'X';
 
   const makeRandomMove = (board: BoardState) => {
     const availableMoves = board
@@ -14,7 +17,7 @@ export const useGame = () => {
 
     if (availableMoves.length > 0) {
       const randomIndex = Math.floor(Math.random() * availableMoves.length);
-      board[availableMoves[randomIndex]] = 'O';
+      board[availableMoves[randomIndex]] = computerMark;
       setSquares([...board]);
     }
   };
@@ -42,9 +45,9 @@ export const useGame = () => {
 
   const evaluateBoard = (board: BoardState): number => {
     const winner = checkWinner(board);
-    if (winner === 'O') {
+    if (winner === computerMark) {
       return +10;
-    } else if (winner === 'X') {
+    } else if (winner === gameMark) {
       return -10;
     }
     return 0;
@@ -72,7 +75,7 @@ export const useGame = () => {
 
       for (let i = 0; i < board.length; i++) {
         if (board[i] === null) {
-          board[i] = 'O';
+          board[i] = computerMark;
           best = Math.max(best, minimax(board, depth + 1, !isMax));
           board[i] = null;
         }
@@ -83,7 +86,7 @@ export const useGame = () => {
 
       for (let i = 0; i < board.length; i++) {
         if (board[i] === null) {
-          board[i] = 'X';
+          board[i] = gameMark;
           best = Math.min(best, minimax(board, depth + 1, !isMax));
           board[i] = null;
         }
@@ -98,7 +101,7 @@ export const useGame = () => {
 
     for (let i = 0; i < board.length; i++) {
       if (board[i] === null) {
-        board[i] = 'O';
+        board[i] = computerMark;
         let moveVal = minimax(board, 0, false);
         board[i] = null;
 
@@ -119,7 +122,7 @@ export const useGame = () => {
     } else {
       const bestMove = findBestMove(newSquares);
       if (bestMove !== -1) {
-        newSquares[bestMove] = 'O';
+        newSquares[bestMove] = computerMark;
         setSquares([...newSquares]);
       }
     }
@@ -137,7 +140,7 @@ export const useGame = () => {
     if (newSquares[i] || checkWinner(newSquares)) {
       return;
     }
-    newSquares[i] = 'X';
+    newSquares[i] = gameMark;
     setSquares(newSquares);
     if (!checkWinner(newSquares)) {
       makeComputerMove(newSquares);
