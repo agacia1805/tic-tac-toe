@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Header, Footer } from './components';
+import { GameMarkContextProvider } from './context';
 
 import './globals.css';
 
@@ -17,6 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+  <GameMarkContextProvider>
     <html lang='en'>
       <body className={`${inter.className} flex min-h-screen flex-col`}>
         <Header />
@@ -24,5 +26,6 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
+    </GameMarkContextProvider>
   );
 }
