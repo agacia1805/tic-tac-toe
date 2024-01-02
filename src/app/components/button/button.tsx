@@ -61,7 +61,7 @@ export const Button = (props: ButtonProps) => {
       })}
       type="button"
       name={name}
-      aria-label={children || name}
+      aria-label={name}
       {...rest}
     >
       {children}

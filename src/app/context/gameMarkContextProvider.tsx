@@ -3,9 +3,11 @@
 import React, { createContext, useContext, ReactNode } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 
+type GameMarkType = 'X' | 'O';
+
 type GameMarkContextType = {
-  gameMark: 'X' | 'O';
-  setGameMark: (newValue: string) => void;
+  gameMark: GameMarkType;
+  setGameMark: (newValue: GameMarkType) => void;
 };
 
 const GameMarkContext = createContext<GameMarkContextType>({
@@ -16,7 +18,7 @@ const GameMarkContext = createContext<GameMarkContextType>({
 export const GameMarkContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [gameMark, setGameMark] = useLocalStorage<string>('gameMark', 'X');
+  const [gameMark, setGameMark] = useLocalStorage<GameMarkType>('gameMark', 'X');
 
   return (
     <GameMarkContext.Provider value={{ gameMark, setGameMark }}>
