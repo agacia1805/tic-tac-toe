@@ -27,6 +27,7 @@ type BaseProps = {
   onClick?: () => void;
   square?: boolean;
   disabled?: boolean;
+  name?: string;
 };
 
 type ButtonAsButton = BaseProps;
@@ -50,7 +51,7 @@ export const Button = (props: ButtonProps) => {
     );
   }
 
-  const { className, children, disabled, square, ...rest } =
+  const { className, children, disabled, square, name, ...rest } =
     props as ButtonAsButton;
   return (
     <button
@@ -58,6 +59,9 @@ export const Button = (props: ButtonProps) => {
         isSquare: square,
         className,
       })}
+      type="button"
+      name={name}
+      aria-label={children || name}
       {...rest}
     >
       {children}

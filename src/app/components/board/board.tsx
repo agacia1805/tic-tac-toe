@@ -14,6 +14,7 @@ export const Board = ({ squares, onClick }: Props) => {
           onClick={() => onClick(i)}
           disabled={!!square?.length}
           square
+          name="game-board button"
           className='h-24 w-24 border-2 border-indigo-300 md:h-32 md:w-32'
         >
           {square}
