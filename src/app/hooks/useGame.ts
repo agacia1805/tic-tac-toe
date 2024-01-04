@@ -7,6 +7,7 @@ export const useGame = () => {
   const { gameMark } = useGameMark();
   const [squares, setSquares] = useState<BoardState>(Array(9).fill(null));
   const computerMark = gameMark === 'X' ? 'O' : 'X';
+  const [winner, setWinner] = useState<SquareValue>(null);
 
   const makeRandomMove = (board: BoardState) => {
     const availableMoves = board
