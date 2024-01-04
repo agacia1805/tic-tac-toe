@@ -17,7 +17,7 @@ export const Footer = () => {
 
   return (
     <footer>
-      <div className='mx-auto gap-4 px-6 py-12 md:flex md:items-center justify-center lg:px-8'>
+      <div className='mx-auto justify-center gap-4 px-6 py-12 md:flex md:items-center lg:px-8'>
         <div className='flex justify-center space-x-6 md:order-2'>
           {navigation.map((item) => (
             <a

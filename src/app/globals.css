@@ -58,3 +58,13 @@ body {
   top: 0;
   z-index: -1;
 }
+
+.glitter-border:hover {
+  opacity: 0.8;
+}
+
+.glitter-text {
+  background: linear-gradient(45deg, #62c1ea, #ff66ff, #62c1ea, #ff66ff);
+  -webkit-background-clip: text;
+  color: transparent;
+}

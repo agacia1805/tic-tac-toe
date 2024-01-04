@@ -18,14 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-  <GameMarkContextProvider>
-    <html lang='en'>
-      <body className={`${inter.className} flex min-h-screen flex-col`}>
-        <Header />
-        <div className='flex-grow'>{children}</div>
-        <Footer />
-      </body>
-    </html>
+    <GameMarkContextProvider>
+      <html lang='en'>
+        <body className={`${inter.className} flex min-h-screen flex-col`}>
+          <Header />
+          <div className='flex flex-grow flex-col justify-center'>
+            {children}
+          </div>
+          <Footer />
+        </body>
+      </html>
     </GameMarkContextProvider>
   );
 }
