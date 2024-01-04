@@ -18,7 +18,10 @@ const GameMarkContext = createContext<GameMarkContextType>({
 export const GameMarkContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [gameMark, setGameMark] = useLocalStorage<GameMarkType>('gameMark', 'X');
+  const [gameMark, setGameMark] = useLocalStorage<GameMarkType>(
+    'gameMark',
+    'X'
+  );
 
   return (
     <GameMarkContext.Provider value={{ gameMark, setGameMark }}>
