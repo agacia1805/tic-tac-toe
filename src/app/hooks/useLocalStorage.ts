@@ -1,23 +1,24 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 
 function useLocalStorage<T>(
   key: string,
   initialValue: T
 ): [T, (newValue: T | ((val: T) => T)) => void] {
-  const [storedValue, setStoredValue] = useState<T>(initialValue);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const item = window.localStorage.getItem(key);
-        setStoredValue(item ? (JSON.parse(item) as T) : initialValue);
-      } catch (error) {
-        console.error('Error reading from Local Storage:', error);
-      }
+  const readValue = () => {
+    if (typeof window === 'undefined') {
+      return initialValue;
     }
-  }, [key]);
+
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? (JSON.parse(item) as T) : initialValue;
+    } catch (error) {
+      console.error('Error reading from Local Storage:', error);
+      return initialValue;
+    }
+  };
+
+  const [storedValue, setStoredValue] = useState<T>(readValue);
 
   useEffect(() => {
     try {
