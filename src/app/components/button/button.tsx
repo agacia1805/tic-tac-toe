@@ -43,7 +43,10 @@ export const Button = (props: ButtonProps) => {
     return (
       <Link
         href={href}
-        className={buttonStyle({ isDisabled: disabled, className })}
+        className={buttonStyle({
+          isDisabled: disabled,
+          className,
+        })}
         {...rest}
       >
         {children}
@@ -59,7 +62,7 @@ export const Button = (props: ButtonProps) => {
         isSquare: square,
         className,
       })}
-      type="button"
+      type='button'
       name={name}
       aria-label={name}
       {...rest}
