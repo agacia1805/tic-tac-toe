@@ -23,7 +23,7 @@ export const MarkPicker = () => {
       </h1>
       <div className='flex max-w-max items-center justify-center'>
         <Button
-          className='rounded-sm border-none px-16'
+          className='rounded-sm border-none px-5 py-2.5'
           name='X mark'
           onClick={() => setGameMark('X')}
         >
@@ -40,7 +40,7 @@ export const MarkPicker = () => {
           </motion.div>
         </Button>
         <Button
-          className='rounded-sm border-none px-16'
+          className='rounded-sm border-none px-5 py-2.5'
           name='O mark'
           onClick={() => setGameMark('O')}
         >

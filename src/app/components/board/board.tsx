@@ -17,7 +17,7 @@ export const Board = ({ squares, onClick }: Props) => {
           disabled={!!square?.length}
           square
           name='game-board button'
-          className='flex h-24 w-24 items-center justify-center border-2 border-indigo-300 px-0 py-0 md:h-32 md:w-32'
+          className='flex h-24 w-24 items-center justify-center border-2 border-indigo-300 md:h-32 md:w-32'
         >
           {square === 'X' ? (
             <XIcon variant='small' />
