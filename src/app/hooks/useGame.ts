@@ -8,6 +8,7 @@ export const useGame = () => {
   const [squares, setSquares] = useState<BoardState>(Array(9).fill(null));
   const computerMark = gameMark === 'X' ? 'O' : 'X';
   const [winner, setWinner] = useState<SquareValue>(null);
+  const [gameStatus, setGameStatus] = useState<string>('');
 
   const makeRandomMove = (board: BoardState) => {
     const availableMoves = board
@@ -114,6 +115,25 @@ export const useGame = () => {
     }
     return bestMove;
   };
+  const determineWinner = (board: BoardState): SquareValue => {
+    if (!hasEnoughMarks(squares)) {
+      return null;
+    }
+    return checkWinner(board);
+  };
+
+  const updateGameStatus = (newSquares: BoardState) => {
+    const newWinner = determineWinner(newSquares);
+    if (newWinner) {
+      setWinner(newWinner);
+      setGameStatus(newWinner === gameMark ? 'You won' : 'You lost');
+      return true;
+    } else if (!areMovesLeft(newSquares)) {
+      setGameStatus("It's a tie");
+      return true;
+    }
+    return false;
+  };
 
   const makeComputerMove = (newSquares: BoardState) => {
     const randomMoveChance = 0.2;
@@ -127,29 +147,40 @@ export const useGame = () => {
         setSquares([...newSquares]);
       }
     }
-  };
 
-  const determineWinner = (board: BoardState): SquareValue => {
-    if (!hasEnoughMarks(squares)) {
-      return null;
+    const newWinner = determineWinner(newSquares);
+    if (newWinner) {
+      setWinner(newWinner);
+      setGameStatus(newWinner === computerMark ? 'You lost' : 'You won');
+    } else if (!areMovesLeft(newSquares)) {
+      setGameStatus("It's a tie");
     }
-    return checkWinner(board);
   };
 
   const handleClick = (i: number) => {
     const newSquares = squares.slice();
-    if (newSquares[i] || checkWinner(newSquares)) {
+    if (newSquares[i] || winner) {
       return;
     }
     newSquares[i] = gameMark;
     setSquares(newSquares);
-    if (!checkWinner(newSquares)) {
-      makeComputerMove(newSquares);
+
+    const newWinner = determineWinner(newSquares);
+    if (newWinner) {
+      setWinner(newWinner);
+      setGameStatus(newWinner === gameMark ? 'You won' : 'You lost');
+      return;
+    } else if (!areMovesLeft(newSquares)) {
+      setGameStatus("It's a tie");
+      return;
     }
+
+    makeComputerMove(newSquares);
   };
 
   return {
     handleClick,
     squares,
+    gameStatus,
   };
 };
