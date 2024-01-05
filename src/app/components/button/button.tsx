@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { cva } from 'class-variance-authority';
 
 const buttonStyle = cva(
-  'border px-5 py-2.5 rounded-full text-base text-center max-w-xs',
+  'border px-5 py-2.5 rounded-full text-base text-center max-w-xs mx-auto',
   {
     variants: {
       isDisabled: {

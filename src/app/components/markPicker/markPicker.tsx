@@ -1,6 +1,8 @@
 'use client';
 
 import { Button } from '../button';
+import { XIcon } from '../xIcon';
+import { OIcon } from '../oIcon';
 import { useGameMark } from '../../context';
 import { motion } from 'framer-motion';
 
@@ -34,10 +36,7 @@ export const MarkPicker = () => {
             }}
             transition={spring}
           >
-            <div className='relative flex w-20 items-center justify-center'>
-              <span className='block h-28 w-4 rotate-45 transform bg-white'></span>
-              <span className='absolute block h-28 w-4 -rotate-45 transform bg-white'></span>
-            </div>
+            <XIcon />
           </motion.div>
         </Button>
         <Button
@@ -46,16 +45,16 @@ export const MarkPicker = () => {
           onClick={() => setGameMark('O')}
         >
           <motion.div
-            className={`h-24 w-24 rounded-full border-8 border-white ${
-              !isXSelected && 'border-current'
-            }`}
             animate={!isXSelected ? 'selected' : 'unselected'}
+            className='flex items-center justify-center p-2'
             variants={{
               selected: { scale: 1.3, opacity: 1 },
               unselected: { scale: 1, opacity: 0.5 },
             }}
             transition={spring}
-          ></motion.div>
+          >
+            <OIcon />
+          </motion.div>
         </Button>
       </div>
     </section>
