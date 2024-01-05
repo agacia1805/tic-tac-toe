@@ -1,0 +1,1 @@
+export { OIcon } from './oIcon';
