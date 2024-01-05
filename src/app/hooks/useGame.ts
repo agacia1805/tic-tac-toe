@@ -1,4 +1,4 @@
-import { BoardState, SquareValue } from '@/app/types';
+import { BoardState, GameStatus, SquareValue } from '@/app/types';
 import { useState } from 'react';
 import { areMovesLeft, hasEnoughMarks } from '@/app/utils';
 import { useGameMark } from '../context';
@@ -8,7 +8,7 @@ export const useGame = () => {
   const [squares, setSquares] = useState<BoardState>(Array(9).fill(null));
   const computerMark = gameMark === 'X' ? 'O' : 'X';
   const [winner, setWinner] = useState<SquareValue>(null);
-  const [gameStatus, setGameStatus] = useState<string>('');
+  const [gameStatus, setGameStatus] = useState<GameStatus | null>(null);
 
   const makeRandomMove = (board: BoardState) => {
     const availableMoves = board
