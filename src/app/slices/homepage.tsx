@@ -7,7 +7,7 @@ export const Homepage = () => {
       <MarkPicker />
       <section className='flex flex-col items-center justify-center gap-4 md:flex-row'>
         <Button
-          className='glitter-border w-full px-16'
+          className='glitter-border w-full px-5 py-2.5'
           href='/components/game'
           name='Start a game'
         >
