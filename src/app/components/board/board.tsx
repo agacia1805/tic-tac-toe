@@ -4,7 +4,7 @@ import { OIcon } from '../oIcon';
 import { motion } from 'framer-motion';
 
 interface Props {
-isPlayerTurn: boolean;
+  isPlayerTurn: boolean;
   squares: (string | null)[];
   onClick: (i: number) => void;
 }
@@ -22,9 +22,8 @@ export const Board = ({ squares, onClick, isPlayerTurn }: Props) => {
         <Button
           key={i}
           onClick={() => onClick(i)}
-          disabled={!!square?.length}
+          disabled={!!square?.length || !isPlayerTurn}
           square
-          disabled={!isPlayerTurn}
           name='game-board button'
           className='flex h-24 w-24 items-center justify-center border-2 border-indigo-300 md:h-32 md:w-32'
         >
