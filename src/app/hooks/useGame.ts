@@ -1,5 +1,5 @@
 import { BoardState, GameStatus, SquareValue } from '@/app/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { areMovesLeft, hasEnoughMarks } from '@/app/utils';
 import { useGameMark } from '../context';
 
@@ -11,18 +11,17 @@ export const useGame = () => {
   const [isPlayerTurn, setIsPlayerTurn] = useState<boolean>(true);
   const computerMark = gameMark === 'X' ? 'O' : 'X';
 
-  const makeRandomMove = (board: BoardState) => {
+  const makeRandomMove = (board: BoardState): number => {
     const availableMoves = board
-      .map((square: SquareValue, index: number) =>
-        square === null ? index : null
-      )
+      .map((square, index) => (square === null ? index : null))
       .filter((index): index is number => index !== null);
 
     if (availableMoves.length > 0) {
       const randomIndex = Math.floor(Math.random() * availableMoves.length);
       board[availableMoves[randomIndex]] = computerMark;
-      setSquares([...board]);
+      return availableMoves[randomIndex];
     }
+    return -1;
   };
 
   const checkWinner = (board: BoardState): SquareValue => {
@@ -137,27 +136,32 @@ export const useGame = () => {
   };
 
   const makeComputerMove = (newSquares: BoardState) => {
+    setIsPlayerTurn(false);
     const randomMoveChance = 0.2;
+    let moveIndex = -1;
 
     if (Math.random() < randomMoveChance) {
-      makeRandomMove(newSquares);
+      moveIndex = makeRandomMove(newSquares);
     } else {
-      const bestMove = findBestMove(newSquares);
-      if (bestMove !== -1) {
-        newSquares[bestMove] = computerMark;
-        setSquares([...newSquares]);
-      }
+      moveIndex = findBestMove(newSquares);
     }
 
-    const newWinner = determineWinner(newSquares);
-    if (newWinner) {
-      setWinner(newWinner);
-      setGameStatus(newWinner === computerMark ? 'You lost' : 'You won');
-    } else if (!areMovesLeft(newSquares)) {
-      setGameStatus("It's a tie");
+    if (moveIndex !== -1) {
+      newSquares[moveIndex] = computerMark;
+      setSquares([...newSquares]);
+
+      if (!updateGameStatus(newSquares)) {
+        setIsPlayerTurn(true);
+      }
     }
-    setIsPlayerTurn(true);
   };
+
+  useEffect(() => {
+    const gameEnded = updateGameStatus(squares);
+    if (!gameEnded) {
+      setIsPlayerTurn(true);
+    }
+  }, [squares]);
 
   const handleClick = (i: number) => {
     const newSquares = squares.slice();
@@ -167,30 +171,24 @@ export const useGame = () => {
     newSquares[i] = gameMark;
     setSquares(newSquares);
 
-    const newWinner = determineWinner(newSquares);
-    if (newWinner) {
-      setWinner(newWinner);
-      setGameStatus(newWinner === gameMark ? 'You won' : 'You lost');
-      return;
-    } else if (!areMovesLeft(newSquares)) {
-      setGameStatus("It's a tie");
-      return;
+    const gameEnded = updateGameStatus(newSquares);
+    if (!gameEnded) {
+      setIsPlayerTurn(false);
+
+      const playComputerHandler = setTimeout(() => {
+        makeComputerMove(newSquares);
+      }, 300);
+
+      return () => {
+        clearTimeout(playComputerHandler);
+      };
     }
-
-    setIsPlayerTurn(false);
-
-    const playComputerHandler = setTimeout(() => {
-      makeComputerMove(newSquares);
-    }, 300);
-
-    return () => {
-      clearTimeout(playComputerHandler);
-    };
   };
 
   return {
     handleClick,
     squares,
     gameStatus,
+    isPlayerTurn,
   };
 };
