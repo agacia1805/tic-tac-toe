@@ -8,7 +8,7 @@ export default function Game() {
   const { handleClick, squares, gameStatus } = useGame();
   return (
     <div className='flex items-center justify-center p-4'>
-      <Board squares={squares} onClick={handleClick} />
+      <Board squares={squares} onClick={handleClick}/>
       {gameStatus && <GameResult gameStatus={gameStatus} />}
     </div>
   );

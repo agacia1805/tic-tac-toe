@@ -31,18 +31,18 @@ export const GameResult = ({ gameStatus }: { gameStatus: GameStatus }) => {
               leaveFrom='opacity-100 translate-y-0 sm:scale-100'
               leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
             >
-              <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-current text-left shadow-xl transition-all w-72 max-w-lg p-8 md:p-12 flex flex-col gap-8 justify-center items-center'>
+              <Dialog.Panel className='relative flex w-72 max-w-lg transform flex-col items-center justify-center gap-8 overflow-hidden rounded-lg bg-current p-8 text-left shadow-xl transition-all md:p-12'>
                 <div>
                   <Dialog.Title
                     as='h2'
-                    className='text-4xl font-bold leading-6 text-gray-700 uppercase'
+                    className='text-4xl font-bold uppercase leading-6 text-gray-700'
                   >
                     {gameStatus}
                   </Dialog.Title>
                 </div>
                 <Button
                   name='Reset game'
-                  className='glitter-border w-full px-16 text-gray-700 px-5 py-2.5 '
+                  className='glitter-border w-full px-16 px-5 py-2.5 text-gray-700 '
                   href='/'
                 >
                   Reset game

@@ -1,11 +1,18 @@
 import { Button } from '../button';
 import { XIcon } from '../xIcon';
 import { OIcon } from '../oIcon';
+import { motion } from 'framer-motion';
 
 interface Props {
   squares: (string | null)[];
   onClick: (i: number) => void;
 }
+
+const markAnimation = {
+  initial: { scale: 0 },
+  animate: { scale: 1 },
+  transition: { duration: 0.2 },
+};
 
 export const Board = ({ squares, onClick }: Props) => {
   return (
@@ -20,9 +27,13 @@ export const Board = ({ squares, onClick }: Props) => {
           className='flex h-24 w-24 items-center justify-center border-2 border-indigo-300 md:h-32 md:w-32'
         >
           {square === 'X' ? (
-            <XIcon variant='small' />
+            <motion.div {...markAnimation}>
+              <XIcon variant='small' />
+            </motion.div>
           ) : square === 'O' ? (
-            <OIcon variant='small' />
+            <motion.div {...markAnimation}>
+              <OIcon variant='small' />
+            </motion.div>
           ) : null}
         </Button>
       ))}
