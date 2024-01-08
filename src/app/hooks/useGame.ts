@@ -6,9 +6,10 @@ import { useGameMark } from '../context';
 export const useGame = () => {
   const { gameMark } = useGameMark();
   const [squares, setSquares] = useState<BoardState>(Array(9).fill(null));
-  const computerMark = gameMark === 'X' ? 'O' : 'X';
   const [winner, setWinner] = useState<SquareValue>(null);
   const [gameStatus, setGameStatus] = useState<GameStatus | null>(null);
+  const [isPlayerTurn, setIsPlayerTurn] = useState<boolean>(true);
+  const computerMark = gameMark === 'X' ? 'O' : 'X';
 
   const makeRandomMove = (board: BoardState) => {
     const availableMoves = board
@@ -155,11 +156,12 @@ export const useGame = () => {
     } else if (!areMovesLeft(newSquares)) {
       setGameStatus("It's a tie");
     }
+    setIsPlayerTurn(true);
   };
 
   const handleClick = (i: number) => {
     const newSquares = squares.slice();
-    if (newSquares[i] || winner) {
+    if (!isPlayerTurn || newSquares[i] || winner) {
       return;
     }
     newSquares[i] = gameMark;
@@ -175,7 +177,15 @@ export const useGame = () => {
       return;
     }
 
-    makeComputerMove(newSquares);
+    setIsPlayerTurn(false);
+
+    const playComputerHandler = setTimeout(() => {
+      makeComputerMove(newSquares);
+    }, 300);
+
+    return () => {
+      clearTimeout(playComputerHandler);
+    };
   };
 
   return {
