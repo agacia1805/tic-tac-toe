@@ -149,10 +149,6 @@ export const useGame = () => {
     if (moveIndex !== -1) {
       newSquares[moveIndex] = computerMark;
       setSquares([...newSquares]);
-
-      if (!updateGameStatus(newSquares)) {
-        setIsPlayerTurn(true);
-      }
     }
   };
 
@@ -163,27 +159,39 @@ export const useGame = () => {
     }
   }, [squares]);
 
-  const handleClick = (i: number) => {
+  function debounce<F extends (...args: any[]) => void>(
+    func: F,
+    waitFor: number
+  ): (...args: Parameters<F>) => void {
+    let timeout: number | undefined;
+
+    return function (...args: Parameters<F>) {
+      clearTimeout(timeout);
+      timeout = window.setTimeout(() => func(...args), waitFor);
+    };
+  }
+
+  const handleClick = debounce((i: number) => {
     const newSquares = squares.slice();
     if (!isPlayerTurn || newSquares[i] || winner) {
       return;
     }
+    setIsPlayerTurn(false);
     newSquares[i] = gameMark;
     setSquares(newSquares);
 
     const gameEnded = updateGameStatus(newSquares);
     if (!gameEnded) {
-      setIsPlayerTurn(false);
-
       const playComputerHandler = setTimeout(() => {
         makeComputerMove(newSquares);
+        setIsPlayerTurn(true);
       }, 300);
 
       return () => {
         clearTimeout(playComputerHandler);
       };
     }
-  };
+  }, 300);
 
   return {
     handleClick,
