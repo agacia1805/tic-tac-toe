@@ -25,23 +25,51 @@ export const useGame = () => {
   };
 
   const checkWinner = (board: BoardState): SquareValue => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
+    const magicSquare = [
+      [2, 9, 4],
+      [7, 5, 3],
+      [6, 1, 8],
     ];
 
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        return board[a];
+    const moves: { X: number[]; O: number[] } = { X: [], O: [] };
+
+    const sumOfMagicValues = (indices: number[]): number => {
+      return indices.reduce(
+        (sum, index) => sum + magicSquare[Math.floor(index / 3)][index % 3],
+        0
+      );
+    };
+
+    const hasWinningCombination = (indices: number[]): boolean => {
+      if (indices.length < 3) {
+        return false;
       }
+
+      for (let i = 0; i < indices.length - 2; i++) {
+        for (let j = i + 1; j < indices.length - 1; j++) {
+          for (let k = j + 1; k < indices.length; k++) {
+            if (sumOfMagicValues([indices[i], indices[j], indices[k]]) === 15) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    };
+
+    board.forEach((square, index) => {
+      if (square === 'X' || square === 'O') {
+        moves[square].push(index);
+      }
+    });
+
+    if (hasWinningCombination(moves.X)) {
+      return 'X';
     }
+    if (hasWinningCombination(moves.O)) {
+      return 'O';
+    }
+
     return null;
   };
 
